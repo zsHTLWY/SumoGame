@@ -1,0 +1,1 @@
+Client Game Displa: Display the current status of the game in a HTML page

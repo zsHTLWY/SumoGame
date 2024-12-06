@@ -1,0 +1,1 @@
+Client Desktop: Play the Sumo-Game on the Desktop via a HTML-Page
