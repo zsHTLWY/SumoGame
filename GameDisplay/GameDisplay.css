@@ -1,0 +1,33 @@
+body{background-color: lightblue;}
+div.circle
+{
+    position: absolute;
+	background-color:orange;
+	left: calc(50% - 45vh);
+	top: 5%;
+	aspect-ratio: 1/1;
+	height: 90%;
+	border-radius: 50%; 
+	text-align: center;  
+	background-repeat: no-repeat;  
+	background-position: center;  
+	background-size:400px; 
+}
+
+#player{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 100px;
+	height: 100px;
+	background-image: url("./assets/defaultsumo.png");
+	background-repeat: no-repeat;
+	background-size: contain;
+}
+
+#playercolor{
+	height: 95%;
+	width: 95%;
+	background-color: green;
+	border-radius: 15rem;
+}
