@@ -1,5 +1,5 @@
 body{background-color: lightblue;}
-div.kreis
+div.circle
 {
     position: absolute;
 	background-color:orange;
@@ -9,15 +9,25 @@ div.kreis
 	height: 90%;
 	border-radius: 50%; 
 	text-align: center;  
-	background-image: url("http://i1.web.de/image/502/31464502,pd=3/bilder-woche-haustiermesse-japan-tokyo-pudel-kajak.jpg");  
 	background-repeat: no-repeat;  
 	background-position: center;  
 	background-size:400px; 
 }
-#player1
-{
-	background-color:green;
-	aspect-ratio: 1/1;
-	height: 5px;
-	border-radius: 5px;
+
+#player{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 100px;
+	height: 100px;
+	background-image: url("./assets/defaultsumo.png");
+	background-repeat: no-repeat;
+	background-size: contain;
+}
+
+#playercolor{
+	height: 95%;
+	width: 95%;
+	background-color: green;
+	border-radius: 15rem;
 }
