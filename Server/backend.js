@@ -4,28 +4,50 @@ const PORT = 3000; // 📌 Port to listen on
 
 // Middleware to parse JSON bodies 🧰
 app.use(express.json());
-let players = [{x: 0, y: 0}, {x: 0, y: 0}, {x: 0, y: 0}, {x: 0, y: 0}, {x: 0, y: 0}, {x: 0, y: 0}, {x: 0, y: 0}, {x: 0, y: 0}, {x: 0, y: 0}, {x: 0, y: 0}];
+let players = [{x: 0, y: 0}, {x: 0, y: 0}, {x: 0, y: 0}, {x: 0, y: 0}, {x: 0, y: 0}, {x: 0, y: 0}, {x: 0, y: 0}, {x: 0, y: 0}, {x: 0, y: 0}, {x: 0, y: 0},{x: 0, y: 0},];
 // Handle PUT requests for coordinates 
 
 app.put('/player:id', (req, res) => {
     let { x, y } = req.body; // 🔍 Extract x and y coordinates from the request body
 
+    console.log(x+" "+y+" id:"+req.params.id);
     if (x === undefined || y === undefined) {
         
         return res.status(400).json({ message: 'Missing x or y coordinate!' });
     }
-    
+    console.log(`Received move percentage: x = ${x}, y = ${y}`); 
+
     //spieler id = req.params
     //hier die gewünschte pos ausrechnen
     //und dann mit checkIfsumoOut überprüfen ob bewegung passt
-    console.log(`Received coordinates: x = ${x}, y = ${y}`); // 🖥️ Log the coordinates
+    
+    if(Math.SQRT2(Math.pow(y,2) + Math.pow(x,2)) > 100.0000001)
+        {
+            players[req.params.id].x = undefined;
+            players[req.params.id].y = undefined;
+        }
+    else{
+            players[req.params.id].x = x;
+            players[req.params.id].y = y;
+        }
 
-    let check = checkIfSumoOut(y,x);// check if out    
+
+    checkIfSumosCollade(players);
+
+    if(Math.SQRT2(Math.pow(y,2) + Math.pow(x,2)) > 100.0000001)
+        {
+            players[req.params.id].x = undefined;
+            players[req.params.id].y = undefined;
+        }
+    else{
+            players[req.params.id].x = x;
+            players[req.params.id].y = y;
+        }
 
     // Respond with the result 📤
     res.status(200).json({
         message: 'Coordinates processed successfully! ',
-        data: { x, y, distanceFromOrigin: result },
+        data: { players},
     });
     res.write(JSON.stringify(players));
     res.end();
@@ -36,24 +58,32 @@ app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT} 🌐`);
 });
 
-function checkIfSumoOut(y,x) {
+function checkIfSumosCollade(players){	
 
-    let middleX;
-    let middleY;
-    let rad = 100 /document.body.innerWidth *70;
-
-    middleX = document.body.innerWidth / 2;
-    middleY = document.body.innerHeight / 2;
-
-    let helpX = x - middleX;
-    let helpY = y - middleY;
-
-    let angle = Math.sqrt(helpY*helpY + helpX*helpX,);
-
-    if(angle > rad) {
-        return false;
-    }
-    else {
-        return x,y;
-    }
+    let countOut = 0;
+    let countIn = 0;
+    players.forEach(player1 => {
+        
+        players.forEach(player2 => {
+        
+            if(countOut =! countIn && player1.x == player2.x && player1.y == player2.y)
+            {
+                if(player1.x > player2.x&& player1.y < player2.y){
+                    player1.x += 10;
+                    player2.x += -10;
+                    player1.y += -10;
+                    player2.y += 10;
+                }
+                else{
+                    player1.x += -10;
+                    player2.x += 10;
+                    player1.y += 10;
+                    player2.y += -10;
+                }
+            }
+            countIn++;
+        });
+        countOut++;
+    });
 }
+
