@@ -4,7 +4,7 @@ const PORT = 3000; // 📌 Port to listen on
 
 // Middleware to parse JSON bodies 🧰
 app.use(express.json());
-let players = [{x: 0, y: 0}, {x: 0, y: 0}, {x: 0, y: 0}, {x: 0, y: 0}, {x: 0, y: 0}, {x: 0, y: 0}, {x: 0, y: 0}, {x: 0, y: 0}, {x: 0, y: 0}, {x: 0, y: 0},{x: 0, y: 0},];
+let players = [{ x: 20, y: 80 }, { x: 57, y: 57 }, { x: 80, y: 20 }, { x: 80, y: -20 }, { x: 57, y: -57 }, { x: 20, y: -80 }, { x: -20, y: -80 }, { x: -57, y: -57 }, { x: -80, y: -10 }, { x: 20, y: -80 }, { x: 57, y: -57 }, { x: -20, y: -80 }];
 // Handle PUT requests for coordinates 
 
 app.put('/player:id', (req, res) => {
