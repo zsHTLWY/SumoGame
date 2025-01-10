@@ -1,0 +1,23 @@
+body{background-color: lightblue;}
+div.kreis
+{
+    position: absolute;
+	background-color:orange;
+	left: calc(50% - 45vh);
+	top: 5%;
+	aspect-ratio: 1/1;
+	height: 90%;
+	border-radius: 50%; 
+	text-align: center;  
+	background-image: url("http://i1.web.de/image/502/31464502,pd=3/bilder-woche-haustiermesse-japan-tokyo-pudel-kajak.jpg");  
+	background-repeat: no-repeat;  
+	background-position: center;  
+	background-size:400px; 
+}
+#player1
+{
+	background-color:green;
+	aspect-ratio: 1/1;
+	height: 5px;
+	border-radius: 5px;
+}
