@@ -1,25 +1,46 @@
-window.addEventListener("deviceorientation", handleOrientation, true);
+import React, { useEffect } from 'react';
+import { DeviceMotion } from 'react-native-sensors';
+import axios from 'axios';
 
-function handleOrientation(event) {
-  var x = event.beta; 
-  var y = event.gamma; 
+const MotionSensorComponent = () => {
+    useEffect(() => {
+        // Set update interval (in milliseconds) for motion updates
+        DeviceMotion.setUpdateInterval(100); // Adjust the interval as needed
 
-  if (x > 90) { x = 90; }
-  if (x < -90) { x = -90; }
-  if (y > 90) { y = 90; }
-  if (y < -90) { y = -90; }
+        // Add listener to receive the tilt data (alpha, beta, gamma)
+        const motionListener = DeviceMotion.addListener(({ rotation }) => {
+            let { beta, gamma } = rotation; // These are the tilt values
 
-  var xPercent = (x / 90) * 100; 
-  var yPercent = (y / 90) * 100; 
+            // Clamp the values to be between -90 and 90 to avoid excessive tilt
+            beta = Math.max(-90, Math.min(90, beta));
+            gamma = Math.max(-90, Math.min(90, gamma));
 
-  if (typeof character !== "undefined") {
-      character.style.top = xPercent + "%"; 
-      character.style.left = yPercent + "%";
-  }
+            // Map the tilt values to percentages between -100 and 100
+            const xPercent = (beta / 90) * 100; // Forward/Backward tilt
+            const yPercent = (gamma / 90) * 100; // Left/Right tilt
 
-  var playerId = 0;
-  var xhr = new XMLHttpRequest();
-  xhr.open("PUT", `http://localhost:3000/player/${playerId}`, true);
-  xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-  xhr.send(JSON.stringify({ x: xPercent, y: yPercent }));
-}
+            // Create player ID, here hardcoded to 0 (adjust as needed)
+            const playerId = 0;
+
+            // Send the tilt data (in percent) to your server using axios
+            axios.put(`http://localhost:3000/player/${playerId}`, {
+                x: xPercent, // Forward/Backward tilt percentage
+                y: yPercent  // Left/Right tilt percentage
+            }).then(response => {
+                console.log('Server received:', response.data);
+            }).catch(error => {
+                console.log('Error sending data:', error);
+            });
+        });
+
+        // Cleanup function to remove the listener when the component unmounts
+        return () => {
+            motionListener.remove();
+        };
+    }, []); // Empty dependency array means this effect runs once on mount and cleanup on unmount
+
+    // Return null since we don't want to render anything
+    return null;
+};
+
+export default MotionSensorComponent;
