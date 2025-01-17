@@ -64,7 +64,8 @@
             document.getElementById("demo").innerHTML = xhttp.responseText;
           }
       };
-      xhttp.open("PUT", "localhost:3000/player/" + playerID, true);
+	  xhttp.open("PUT", "http://localhost:3000/player" + playerID, true);
+      xhttp.setRequestHeader('Content-Type', 'application/json')
       xhttp.send(JSON.stringify({x :-2, y :0}));
     }
 

@@ -1,26 +1,33 @@
 const express = require('express'); // 🌟 Import Express
+const cors = require('cors');
 const app = express(); // 🎉 Initialize the app
 const PORT = 3000; // 📌 Port to listen on
 
 // Middleware to parse JSON bodies 🧰
 app.use(express.json());
 app.use(cors());
+
 let players = [{ x: 20, y: 80 }, { x: 57, y: 57 }, { x: 80, y: 20 }, { x: 80, y: -20 }, { x: 57, y: -57 }, { x: 20, y: -80 }, { x: -20, y: -80 }, { x: -57, y: -57 }, { x: -80, y: -10 }, { x: 20, y: -80 }, { x: 57, y: -57 }, { x: -20, y: -80 }];
 // Handle PUT requests for coordinates 
 
 app.get('/test', (req, res) => {
     res.send("Hello World!");
-    res.end("Ende!");
 });
 
 app.put('/player:id', (req, res) => {
 
     
+	console.log("Hello!");
+	
+	let { x, y } = req.body; // 🔍 Extract x and y coordinates from the request body
+	
+	console.log(req.body);
+    //let data = JSON.parse(req.body); // 🔍 Extract x and y coordinates from the request body
 
-    let data = JSON.parse(req.body); // 🔍 Extract x and y coordinates from the request body
+    //console.log("received: " + data + " from player " + req.params.id)
 
-    x = data.x;
-    y = data.y;
+    //x = data.x;
+    //y = data.y;
 
     console.log(x+" "+y+" id:"+req.params.id);
     if (x === undefined || y === undefined) {
@@ -33,7 +40,7 @@ app.put('/player:id', (req, res) => {
     //hier die gewünschte pos ausrechnen
     //und dann mit checkIfsumoOut überprüfen ob bewegung passt
     
-    if(Math.SQRT2(Math.pow(y,2) + Math.pow(x,2)) > 100.0000001)
+    if(Math.sqrt(Math.pow(y,2) + Math.pow(x,2)) > 100.0000001)
         {
             players[req.params.id].x = undefined;
             players[req.params.id].y = undefined;
@@ -46,7 +53,7 @@ app.put('/player:id', (req, res) => {
 
     checkIfSumosCollade(players);
 
-    if(Math.SQRT2(Math.pow(y,2) + Math.pow(x,2)) > 100.0000001)
+    if(Math.sqrt(Math.pow(y,2) + Math.pow(x,2)) > 100.0000001)
         {
             players[req.params.id].x = undefined;
             players[req.params.id].y = undefined;
@@ -56,13 +63,15 @@ app.put('/player:id', (req, res) => {
             players[req.params.id].y = y;
         }
 
+    console.log(players);
+
     // Respond with the result 📤
     res.status(200).json({
         message: 'Coordinates processed successfully! ',
         data: { players},
     });
-    res.write(JSON.stringify(players));
-    res.end();
+    //res.send(JSON.stringify(players));
+    //res.end();
 });
 
 // Start the server 🚀
