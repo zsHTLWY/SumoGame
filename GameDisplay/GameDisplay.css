@@ -13,8 +13,7 @@ div.circle
 	background-position: center;  
 	background-size:400px; 
 }
-
-#player{
+.players{
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -23,6 +22,7 @@ div.circle
 	background-image: url("./assets/defaultsumo.png");
 	background-repeat: no-repeat;
 	background-size: contain;
+	position: absolute;
 }
 
 #playercolor{
