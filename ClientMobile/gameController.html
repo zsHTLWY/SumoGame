@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Controller</title>
+ 
+  <script>
+
+    let xPos = 100;
+    let is_running = false;
+
+    
+    function handleOrientation(event) {
+      //document.getElementById("logging2").innerText = "Handle Orientation!"; 
+	  let pc = document.getElementById("hiddenPassCode").innerText;
+      updateFieldIfNotNull('Orientation_a', event.alpha);
+      updateFieldIfNotNull('Orientation_b', event.beta);
+      updateFieldIfNotNull('Orientation_g', event.gamma);
+      incrementEventCount();
+    }
+
+    function incrementEventCount() {
+      document.getElementById("logging2").innerText = "Update Event Counter!";  
+      let counterElement = document.getElementById("num-observed-events")
+      let eventCount = parseInt(counterElement.innerHTML)
+      counterElement.innerHTML = eventCount + 1;
+
+      document.getElementById("logging1").innerText = "EventCount: " + eventCount + "<br/>";    
+    }
+
+    function updateFieldIfNotNull(fieldName, value, precision = 10) {
+      if (value != null)
+        document.getElementById(fieldName).innerHTML = value.toFixed(precision);
+    }
+
+    function handleMotion(event) {
+      //document.getElementById("logging2").innerText = "Handle Motion!"; 
+      updateFieldIfNotNull('Accelerometer_gx', event.accelerationIncludingGravity.x);
+      updateFieldIfNotNull('Accelerometer_gy', event.accelerationIncludingGravity.y);
+      updateFieldIfNotNull('Accelerometer_gz', event.accelerationIncludingGravity.z);
+
+      updateFieldIfNotNull('Accelerometer_x', event.acceleration.x);
+      updateFieldIfNotNull('Accelerometer_y', event.acceleration.y);
+      updateFieldIfNotNull('Accelerometer_z', event.acceleration.z);
+
+      updateFieldIfNotNull('Accelerometer_i', event.interval, 2);
+
+      updateFieldIfNotNull('Gyroscope_z', event.rotationRate.alpha);
+      updateFieldIfNotNull('Gyroscope_x', event.rotationRate.beta);
+      updateFieldIfNotNull('Gyroscope_y', event.rotationRate.gamma);
+      incrementEventCount();
+    }
+
+    function simulateLeft(){
+
+      let playerID = document.getElementById("playerID").value;
+
+      var xhttp = new XMLHttpRequest();
+      xhttp.onreadystatechange = function() {
+          if (this.readyState == 4 && this.status == 200) {
+            // Typical action to be performed when the document is ready:
+            document.getElementById("demo").innerHTML = xhttp.responseText;
+          }
+      };
+      xhttp.open("PUT", "localhost:3000/player/" + playerID, true);
+      xhttp.send(JSON.stringify({x :-2, y :0}));
+    }
+
+
+    function init() {
+
+      
+      let demo_button = document.getElementById("start_demo");
+      demo_button.onclick = function (e) {
+        e.preventDefault();
+
+        /*
+        if (
+          DeviceMotionEvent &&
+          typeof DeviceMotionEvent.requestPermission === "function"
+        ) {
+          DeviceMotionEvent.requestPermission();
+        }
+          */
+
+        if (is_running) {
+          window.removeEventListener("devicemotion", handleMotion);
+          window.removeEventListener("deviceorientation", handleOrientation);
+          demo_button.innerHTML = "Start";
+          demo_button.classList.add('btn-success');
+          demo_button.classList.remove('btn-danger');
+          is_running = false;
+          document.getElementById("logging3").innerText = "is_running = false";
+        } else {
+          window.addEventListener("devicemotion", handleMotion);
+          window.addEventListener("deviceorientation", handleOrientation);
+          document.getElementById("start_demo").innerHTML = "Stop";
+          demo_button.classList.remove('btn-success');
+          demo_button.classList.add('btn-danger');
+          is_running = true;
+          document.getElementById("logging3").innerText = "is_running = true";
+        }
+      }
+    }
+
+  </script>
+</head>
+
+<body onload="init()">
+  <h1>IMU Sensors</h1>
+  <button id="start_demo">Start</button>
+  <div id="logText">---</div>
+
+  Player ID: <input type="number" id="playerID" value="1"></input>
+  
+<button onclick="simulateLeft()">move left</button>
+
+  <div id="logging1"></div>
+  <div id="logging2"></div>
+  <div id="logging3"></div>
+
+  <div id="Orientation_a"></div>
+  <div id="Orientation_b"></div>
+  <div id="Orientation_g"></div>
+
+  <div id="Accelerometer_gx"></div>
+  <div id="Accelerometer_gy"></div>
+  <div id="Accelerometer_gz"></div>
+
+  <div id="Accelerometer_x"></div>
+  <div id="Accelerometer_y"></div>
+  <div id="Accelerometer_z"></div>
+
+  <div id="Accelerometer_i"></div>
+
+  <div id="Gyroscope_z"></div>
+  <div id="Gyroscope_x"></div>
+  <div id="Gyroscope_y"></div>
+
+</body>
+
+</html>

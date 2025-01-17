@@ -4,11 +4,23 @@ const PORT = 3000; // 📌 Port to listen on
 
 // Middleware to parse JSON bodies 🧰
 app.use(express.json());
+app.use(cors());
 let players = [{ x: 20, y: 80 }, { x: 57, y: 57 }, { x: 80, y: 20 }, { x: 80, y: -20 }, { x: 57, y: -57 }, { x: 20, y: -80 }, { x: -20, y: -80 }, { x: -57, y: -57 }, { x: -80, y: -10 }, { x: 20, y: -80 }, { x: 57, y: -57 }, { x: -20, y: -80 }];
 // Handle PUT requests for coordinates 
 
+app.get('/test', (req, res) => {
+    res.send("Hello World!");
+    res.end("Ende!");
+});
+
 app.put('/player:id', (req, res) => {
-    let { x, y } = req.body; // 🔍 Extract x and y coordinates from the request body
+
+    
+
+    let data = JSON.parse(req.body); // 🔍 Extract x and y coordinates from the request body
+
+    x = data.x;
+    y = data.y;
 
     console.log(x+" "+y+" id:"+req.params.id);
     if (x === undefined || y === undefined) {
