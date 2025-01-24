@@ -2,7 +2,7 @@ const express = require('express'); // Import Express
 const cors = require('cors');
 const app = express(); //  Initialize the app
 const PORT = 3000; //  Port to listen on
-
+const PORTFirst = 3001;
 // Middleware to parse JSON bodies 
 app.use(express.json());
 app.use(cors());
@@ -12,6 +12,10 @@ let players = [{ x: 20, y: 80 }, { x: 57, y: 57 }, { x: 80, y: 20 }, { x: 80, y:
 
 app.get('/test', (req, res) => {
     res.send("Hello World!");
+});
+
+app.listen(PORTFirst, () => {
+    res.send(players);
 });
 
 app.put('/player:id', (req, res) => {
