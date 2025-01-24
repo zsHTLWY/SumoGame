@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { DeviceMotion } from 'react-native-sensors';
-import axios from 'axios';
+
 
 const MotionSensorComponent = () => {
     useEffect(() => {
@@ -20,19 +20,26 @@ const MotionSensorComponent = () => {
             const yPercent = (gamma / 90) * 100; // Left/Right tilt
 
             // Create player ID, here hardcoded to 0 (adjust as needed)
-            const playerId = 0;
+            const playerId = 1;
 
             // Send the tilt data (in percent) to your server using axios
-            axios.put(`http://localhost:3000/player/${playerId}`, {
-                x: xPercent, // Forward/Backward tilt percentage
-                y: yPercent  // Left/Right tilt percentage
-            }).then(response => {
-                console.log('Server received:', response.data);
-            }).catch(error => {
-                console.log('Error sending data:', error);
-            });
+            fetch(`http://localhost:3000/player/${playerId}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    x: xPercent, // Forward/Backward tilt percentage
+                    y: yPercent  // Left/Right tilt percentage
+                })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Server received:', data);
+                })
+                .catch(error => {
+                    console.error('Error sending data:', error);
+                });
         });
-
+        
         // Cleanup function to remove the listener when the component unmounts
         return () => {
             motionListener.remove();
