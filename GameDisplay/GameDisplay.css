@@ -13,6 +13,7 @@ div.circle
 	background-position: center;  
 	background-size:400px; 
 }
+
 .players{
 	display: flex;
 	justify-content: center;
@@ -25,9 +26,8 @@ div.circle
 	position: absolute;
 }
 
-#playercolor{
+.playercolor{
 	height: 95%;
 	width: 95%;
-	background-color: green;
 	border-radius: 15rem;
 }
