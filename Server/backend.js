@@ -14,9 +14,9 @@ app.get('/test', (req, res) => {
     res.send("Hello World!");
 });
 
-app.listen(PORTFirst, () => {
-    res.send(players);
-});
+app.get('/firstCoordinates', (req, res) => {
+    res.json(players);
+  });
 
 app.put('/player:id', (req, res) => {
 
