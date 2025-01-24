@@ -22,7 +22,7 @@ const MotionSensorComponent = () => {
             // Create player ID, here hardcoded to 0 (adjust as needed)
             const playerId = 1;
 
-            // Send the tilt data (in percent) to your server using axios
+            // Send the tilt data (in percent) to your server using fetch
             fetch(`http://localhost:3000/player/${playerId}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
