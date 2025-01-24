@@ -1,9 +1,9 @@
-const express = require('express'); // 🌟 Import Express
+const express = require('express'); // Import Express
 const cors = require('cors');
-const app = express(); // 🎉 Initialize the app
-const PORT = 3000; // 📌 Port to listen on
+const app = express(); //  Initialize the app
+const PORT = 3000; //  Port to listen on
 
-// Middleware to parse JSON bodies 🧰
+// Middleware to parse JSON bodies 
 app.use(express.json());
 app.use(cors());
 
@@ -19,15 +19,13 @@ app.put('/player:id', (req, res) => {
     
 	console.log("Hello!");
 	
-	let { x, y } = req.body; // 🔍 Extract x and y coordinates from the request body
+	let { x, y } = req.body; //  Extract x and y coordinates from the request body
 	
 	console.log(req.body);
-    //let data = JSON.parse(req.body); // 🔍 Extract x and y coordinates from the request body
+    
 
-    //console.log("received: " + data + " from player " + req.params.id)
+    console.log("received: X" + x + " | y:" + y + " from player " + req.params.id)
 
-    //x = data.x;
-    //y = data.y;
 
     console.log(x+" "+y+" id:"+req.params.id);
     if (x === undefined || y === undefined) {
@@ -65,16 +63,16 @@ app.put('/player:id', (req, res) => {
 
     console.log(players);
 
-    // Respond with the result 📤
+    // Respond with the result 
     res.status(200).json({
         message: 'Coordinates processed successfully! ',
         data: { players},
     });
-    //res.send(JSON.stringify(players));
-    //res.end();
+    res.send(JSON.stringify(players));
+    res.end();
 });
 
-// Start the server 🚀
+// Start the server
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT} 🌐`);
 });
