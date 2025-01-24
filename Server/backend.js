@@ -67,13 +67,25 @@ app.put('/player:id', (req, res) => {
 
     console.log(players);
 
-    // Respond with the result 
+    /*// Respond with the result 
     res.status(200).json({
         message: 'Coordinates processed successfully! ',
         data: { players},
     });
     res.send(JSON.stringify(players));
     res.end();
+    */
+
+    const ipAddress = '192.168.1.100'; //hier die ip eintragen 
+    const port = 8080; // hier den Port eintragen
+
+    
+    // Daten an die IP-Adresse senden
+    const socket = net.createConnection(port, ipAddress);
+    socket.write(data);
+    socket.end();
+
+    res.send(`Daten gesendet an ${ipAddress}:${port}`);
 });
 
 // Start the server
