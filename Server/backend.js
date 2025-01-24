@@ -18,7 +18,7 @@ app.get('/firstCoordinates', (req, res) => {
     res.json(players);
   });
 
-app.put('/player:id', (req, res) => {
+app.get('/player:id', (req, res) => {
 
     
 	console.log("Hello!");
